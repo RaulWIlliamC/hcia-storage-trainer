@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HCIA-Storage Chapter Trainer</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">HCIA-Storage V5.0</p>
+        <h1>HCIA-Storage Chapter Trainer</h1>
+      </div>
+      <div class="status-strip" aria-label="Study status">
+        <div><span id="score">0</span><small>score</small></div>
+        <div><span id="streak">0</span><small>streak</small></div>
+        <div><span id="answered">0</span><small>answered</small></div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <h2>Chapter 1: RAID Technologies</h2>
+          <p>
+            Learn the exam rules for traditional RAID, RAID 2.0+, Dynamic RAID,
+            and RAID-TP. Hover highlighted terms for simple, technical, and
+            exam-focused memory hooks.
+          </p>
+        </div>
+        <div class="chapter-card">
+          <span>PDF range</span>
+          <strong>p126-p169</strong>
+          <small>44 pages compressed into quiz loops</small>
+        </div>
+      </section>
+
+      <section class="chapter-folders" aria-label="Study chapters">
+        <button class="folder-card active" type="button" data-chapter="1">
+          <span>Chapter 1</span>
+          <strong>RAID Technologies</strong>
+          <small>Available now · p126-p169</small>
+        </button>
+        <button class="folder-card" type="button" data-chapter="2">
+          <span>Chapter 2</span>
+          <strong>Storage Network Architecture</strong>
+          <small>Available now · p241-p283</small>
+        </button>
+        <button class="folder-card" type="button" data-chapter="3">
+          <span>Chapter 3</span>
+          <strong>Common Storage Protocols</strong>
+          <small>Available now · p170-p240</small>
+        </button>
+        <button class="folder-card" type="button" data-chapter="review">
+          <span>Checkpoint</span>
+          <strong>Chapters 1-3 Review</strong>
+          <small>Main mixed questions before Chapter 4</small>
+        </button>
+        <button class="folder-card" type="button" data-chapter="mistakes">
+          <span>Mock Fix</span>
+          <strong>Mock Mistakes Trainer</strong>
+          <small>Your wrong Huawei mock questions</small>
+        </button>
+        <button class="folder-card" type="button" data-chapter="notebook">
+          <span>Notebook</span>
+          <strong>Mistake Notebook</strong>
+          <small>Retry your saved misses anytime</small>
+        </button>
+        <button class="folder-card" type="button" data-chapter="4">
+          <span>Chapter 4</span>
+          <strong>Intelligent Data Storage System</strong>
+          <small>Available now · p51-p125</small>
+        </button>
+        <button class="folder-card locked" type="button" data-chapter="5">
+          <span>Chapter 5</span>
+          <strong>Storage Resource Tuning</strong>
+          <small>SmartThin, SmartQoS, dedupe · p396-p467</small>
+        </button>
+        <button class="folder-card locked" type="button" data-chapter="6">
+          <span>Chapter 6</span>
+          <strong>Storage Data Protection</strong>
+          <small>HyperSnap, HyperClone, CDP · p468-p523</small>
+        </button>
+        <button class="folder-card locked" type="button" data-chapter="7">
+          <span>Chapter 7</span>
+          <strong>Huawei Intelligent Storage Products</strong>
+          <small>Product families · p284-p343</small>
+        </button>
+        <button class="folder-card locked" type="button" data-chapter="8">
+          <span>Chapter 8</span>
+          <strong>Storage System Operation Management</strong>
+          <small>DeviceManager, CLI, UltraPath · p344-p395</small>
+        </button>
+        <button class="folder-card locked" type="button" data-chapter="9">
+          <span>Chapter 9</span>
+          <strong>Storage System O&M Management</strong>
+          <small>O&M process and tools · p524-p571</small>
+        </button>
+        <button class="folder-card locked" type="button" data-chapter="10">
+          <span>Chapter 10</span>
+          <strong>Storage Technology Trends</strong>
+          <small>Trends and lifecycle · p1-p50</small>
+        </button>
+      </section>
+
+      <section class="mode-row" aria-label="Quiz controls">
+        <button class="mode-btn active" data-mode="all">All RAID</button>
+        <button class="mode-btn" data-mode="traditional">Traditional RAID</button>
+        <button class="mode-btn" data-mode="raid2">RAID 2.0+</button>
+        <button class="mode-btn" data-mode="huawei">Dynamic / RAID-TP</button>
+        <button id="shuffleBtn" class="icon-btn" title="Shuffle questions" aria-label="Shuffle questions">↻</button>
+      </section>
+
+      <section class="layout">
+        <aside class="learning-panel">
+          <h2>What To Know</h2>
+          <div class="topic-list">
+            <article>
+              <h3>Core Ideas</h3>
+              <p>
+                <span class="term" data-term="raid">RAID</span> combines disks into a logical disk.
+                It improves capacity, performance, and/or reliability using
+                <span class="term" data-term="striping">striping</span>,
+                <span class="term" data-term="mirroring">mirroring</span>, and
+                <span class="term" data-term="parity">parity</span>.
+              </p>
+            </article>
+            <article>
+              <h3>Traditional RAID</h3>
+              <p>
+                Know RAID 0, 1, 3, 5, 6, 10, and 50. The exam likes failure
+                tolerance, performance tradeoffs, and whether parity is dedicated
+                or distributed.
+              </p>
+            </article>
+            <article>
+              <h3>RAID 2.0+</h3>
+              <p>
+                Huawei RAID 2.0+ virtualizes disks into
+                <span class="term" data-term="chunk">chunks</span>,
+                <span class="term" data-term="ckg">CKGs</span>,
+                <span class="term" data-term="extent">extents</span>, and
+                storage pools. Its big win is faster many-to-many reconstruction.
+              </p>
+            </article>
+            <article>
+              <h3>Other Huawei RAID</h3>
+              <p>
+                <span class="term" data-term="dynamicRaid">Dynamic RAID</span>
+                handles flash block failures efficiently.
+                <span class="term" data-term="raidTp">RAID-TP</span> tolerates
+                three disk failures and targets large-capacity disk risk.
+              </p>
+            </article>
+          </div>
+        </aside>
+
+        <section class="quiz-card" aria-live="polite">
+          <div class="quiz-head">
+            <span id="questionTag">Question</span>
+            <span id="questionCount">1 / 1</span>
+          </div>
+          <h2 id="questionText">Loading question...</h2>
+          <div id="answers" class="answers"></div>
+          <div id="feedback" class="feedback hidden"></div>
+          <div id="results" class="results hidden"></div>
+          <div class="actions">
+            <button id="hintBtn" class="secondary-btn">Hint</button>
+            <button id="explainBtn" class="secondary-btn">Explain</button>
+            <button id="nextBtn" class="primary-btn">Next</button>
+          </div>
+        </section>
+      </section>
+
+      <section class="attempts-section">
+        <div class="attempts-head">
+          <h2>Saved Attempts</h2>
+          <button id="clearAttemptsBtn" class="secondary-btn">Clear</button>
+        </div>
+        <div id="attemptsList" class="attempts-list"></div>
+      </section>
+
+      <section class="notebook-section">
+        <div class="attempts-head">
+          <h2>Mistake Notebook</h2>
+          <button id="clearNotebookBtn" class="secondary-btn">Clear</button>
+        </div>
+        <div id="notebookList" class="notebook-list"></div>
+      </section>
+
+      <section class="glossary-section">
+        <h2>Hover Glossary</h2>
+        <div id="glossaryGrid" class="glossary-grid"></div>
+      </section>
+    </main>
+
+    <div id="tooltip" class="tooltip" role="tooltip" aria-hidden="true"></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
