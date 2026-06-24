@@ -2459,25 +2459,25 @@ function hintForQuestion(question) {
     : "Single answer: look for the one statement that matches the wording. ";
 
   if (text.includes("incorrect") || text.includes("not a feature") || text.includes("cannot") || text.includes("not supporting")) return prefix + "This is a negative-wording trap. Find the false statement, not the familiar true one.";
-  if (text.includes("smartthin")) return prefix + "Think thin provisioning: on-demand allocation and virtual capacity larger than physical capacity.";
-  if (text.includes("smarttier")) return prefix + "Hot/frequently accessed data should move to or start in the high-performance tier.";
-  if (text.includes("hypercdp")) return prefix + "HyperCDP facts: very short point-in-time copies, 3-second minimum interval, consistency groups support rollback.";
-  if (text.includes("hyperclone")) return prefix + "Clone questions care about split, reverse synchronization, and multiple target LUNs.";
-  if (text.includes("hypermetro")) return prefix + "For static priority, focus on which site is priority and what kind of link failed.";
-  if (text.includes("snapshot") || text.includes("cow")) return prefix + "COW keeps old source blocks from the snapshot point. Later modified data is the trap.";
-  if (text.includes("logical port")) return prefix + "Logical ports are virtual service ports based on Ethernet/bond/VLAN ports, and IP addresses must be unique.";
-  if (text.includes("raid 10")) return prefix + "RAID 10 does not survive any two disk failures; same mirror pair is the danger.";
-  if (text.includes("raid 2.0")) return prefix + "RAID 2.0+ uses virtualization and distributed spare capacity. Manual independent hot spare disks are suspicious.";
-  if (text.includes("das")) return prefix + "DAS weak points: scaling, sharing, central management, and querying scattered data.";
-  if (text.includes("nvme")) return prefix + "NVMe advantages are performance-oriented: low latency, high bandwidth, high IOPS, and efficient operation.";
-  if (text.includes("slc") || text.includes("mlc") || text.includes("tlc") || text.includes("qlc")) return prefix + "Cell bit order: SLC 1, MLC 2, TLC 3, QLC 4.";
-  if (text.includes("toe nic") || text.includes("iscsi hba")) return prefix + "Host CPU busy with iSCSI/TCP conversion means offload: TOE NIC or iSCSI HBA.";
-  if (text.includes("eservice")) return prefix + "The tool that automatically reports alarms to Huawei support is eService.";
-  if (text.includes("rbac")) return prefix + "RBAC means role-based access control.";
-  if (text.includes("hdfs")) return prefix + "NameNode is metadata; DataNode stores actual data.";
-  if (text.includes("bbu") || text.includes("coffer")) return prefix + "BBU is emergency power; coffer disk stores critical data during failure.";
-  if (text.includes("front-end") || text.includes("back-end")) return prefix + "Front-end faces hosts. Back-end faces disks/internal storage paths.";
-  if (text.includes("scale-out")) return prefix + "Scale-out means horizontal growth with nodes/controllers, pooling, and elastic redundancy.";
+  if (text.includes("smartthin")) return prefix + "Think about the feature category first: capacity virtualization and allocation timing. Avoid choosing a feature just because the name sounds familiar.";
+  if (text.includes("smarttier")) return prefix + "Sort the data by temperature first: hot data, cold data, and which tier should handle each.";
+  if (text.includes("hypercdp")) return prefix + "This is a point-in-time protection feature. Watch for exact timing and consistency-group wording.";
+  if (text.includes("hyperclone")) return prefix + "Clone questions usually ask what happens between source and target copies. Focus on split, sync direction, and service takeover wording.";
+  if (text.includes("hypermetro")) return prefix + "Active-active questions are scenario questions. Identify the failed link/site first, then decide which side should continue service.";
+  if (text.includes("snapshot") || text.includes("cow")) return prefix + "For copy-on-write, ask: is the question talking about old data at snapshot time, or new writes after the snapshot?";
+  if (text.includes("logical port")) return prefix + "Separate physical carrier ports from virtual service ports. Then check whether the question is about host access, IP uniqueness, or port type.";
+  if (text.includes("raid 10")) return prefix + "For nested RAID, map the mirror pairs before counting failures. Disk placement matters more than the raw number of failed disks.";
+  if (text.includes("raid 2.0")) return prefix + "Look for virtualization, distributed rebuild behavior, and whether spare capacity is centralized or manually assigned.";
+  if (text.includes("das")) return prefix + "Ask whether the storage is directly attached to one host or shared through a network. Then think about scaling and management limits.";
+  if (text.includes("nvme")) return prefix + "This topic is about fast SSD access. Compare latency, bandwidth, IOPS, and protocol overhead.";
+  if (text.includes("slc") || text.includes("mlc") || text.includes("tlc") || text.includes("qlc")) return prefix + "The cell names move from fewer bits per cell to more bits per cell. More bits usually means more capacity but weaker endurance/performance.";
+  if (text.includes("toe nic") || text.includes("iscsi hba")) return prefix + "If the problem is host CPU overhead from network storage processing, look for an offload-style component.";
+  if (text.includes("eservice")) return prefix + "Match the tool name to its job. Local management, command-line management, kit-style maintenance, and remote service reporting are different roles.";
+  if (text.includes("rbac")) return prefix + "Expand the acronym mentally and match it to the access-control model, not to a storage/protection feature.";
+  if (text.includes("hdfs")) return prefix + "Separate the metadata/control role from the node that stores actual file blocks.";
+  if (text.includes("bbu") || text.includes("coffer")) return prefix + "Think emergency failure handling: one part buys time with power, another preserves critical cached/system data.";
+  if (text.includes("front-end") || text.includes("back-end")) return prefix + "Draw the path: host side, controller/internal side, disk side. The port name usually tells which direction it faces.";
+  if (text.includes("scale-out")) return prefix + "Think horizontal growth by adding nodes/controllers. Watch for wording about pooling, virtualization, and redundancy.";
 
   return prefix + "Classify the topic first: RAID/protection, block SAN, file NAS, object/big-data, hardware/media, or O&M tool.";
 }
