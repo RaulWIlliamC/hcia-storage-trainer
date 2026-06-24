@@ -2737,51 +2737,75 @@ function renderNotebook() {
 function memoryHook(question) {
   const text = `${question.tag} ${question.q} ${question.explain}`.toLowerCase();
 
-  if (text.includes("smartthin")) return "SmartThin = thin provisioning. It presents large logical capacity and allocates physical space only when data is written.";
-  if (text.includes("smarttier")) return "SmartTier = hot data moves upward. Frequently accessed data should use or migrate to the high-performance tier.";
-  if (text.includes("smartmigration")) return "SmartMigration = full LUN migration. Source data is copied to a target LUN, then the target can take over services.";
-  if (text.includes("smartmatrix")) return "SmartMatrix = controller/module sharing in OceanStor all-flash. A controller failure should not interrupt services.";
-  if (text.includes("smartindexing")) return "Do not assume every multi-protocol feature is SmartIndexing. Check the exact feature name the question asks about.";
-  if (text.includes("hypercdp")) return "HyperCDP = very short point-in-time copies. Remember the mock fact: minimum schedule interval is 3 seconds; consistency groups support create/delete/rollback.";
-  if (text.includes("hyperclone")) return "HyperClone = clone copy. It can split a target LUN, reverse-sync for logical faults, and create multiple target LUNs.";
-  if (text.includes("hypermetro")) return "HyperMetro = active-active. Static priority means the priority site wins specific failure decisions; read the failure scenario carefully.";
-  if (text.includes("snapshot") || text.includes("cow")) return "Snapshot/COW trap: COW protects the old source blocks from the snapshot time, not the later modified data.";
-  if (text.includes("rollback")) return "Rollback copies snapshot data back to the source. Be careful with statements that invent host-write behavior during rollback.";
-  if (text.includes("eservice")) return "eService = automatically reports alarms to Huawei service/support. DeviceManager is local management; CLI is command-line management.";
-  if (text.includes("dme") || text.includes("redfish")) return "DME integration protocols in the mock: RESTful, SSH, SNMP are valid; Redfish was the odd one out.";
-  if (text.includes("rbac")) return "RBAC = role-based access control. OceanStor Pacific access control in the mock maps to RBAC.";
-  if (text.includes("itil") || text.includes("iso2000") || text.includes("snia") || text.includes("ieee")) return "O&M standard systems: ITIL and ISO2000/ISO 20000. IEEE and SNIA are not the O&M standard systems for that question.";
-  if (text.includes("cli") && text.includes("change user")) return "CLI command syntax: first word is operation, next word is object, key=value pairs are parameters. change user user_name=... level=admin changes user level.";
-  if (text.includes("raid 10")) return "RAID 10 failure tolerance depends on which disks fail. Two failed disks in the same mirror pair can lose data.";
-  if (text.includes("raid 2.0")) return "RAID 2.0+ = block virtualization, distributed spare capacity, thin reconstruction, many-to-many rebuild. It does not require manually configured hot spare disks.";
-  if (text.includes("raid 0")) return "RAID 0 = striping only. Fast, no parity, no redundancy.";
-  if (text.includes("raid 5")) return "RAID 5 = distributed parity, tolerates one disk failure.";
-  if (text.includes("raid 6")) return "RAID 6 = double distributed parity, tolerates two disk failures.";
-  if (text.includes("stripe") || text.includes("striping")) return "Strip = consecutive sectors on one disk. Stripe = same-position strips across disks. Huawei likes reversing those words.";
-  if (text.includes("extent")) return "Extent = unit for migration and hot-data statistics. Do not assume one storage pool has arbitrary mixed extent sizes.";
-  if (text.includes("logical port")) return "Logical port = virtual service port based on Ethernet/bond/VLAN port. It carries host services and has an IP; different logical ports cannot share the same IP.";
-  if (text.includes("toe nic") || text.includes("iscsi hba")) return "iSCSI software initiator uses host CPU. TOE NIC or iSCSI HBA offloads that processing; faster Ethernet or more capacity does not solve CPU overhead.";
-  if (text.includes("pcie scale-out") || text.includes("ip scale-out")) return "PCIe scale-out uses PCIe/RDMA controller interconnect behavior. Ethernet/iWARP belongs to IP/RDMA concepts, not PCIe scale-out.";
-  if (text.includes("scale-out")) return "Scale-out = horizontal expansion by adding nodes/controllers, resource pooling, virtualization, and elastic redundancy. A statement saying it lacks EC is suspicious.";
-  if (text.includes("das")) return "DAS = direct-attached block storage. Main weaknesses: poor scalability, scattered management, weak sharing, hard cross-device query.";
-  if (text.includes("nas") && text.includes("san")) return "SAN is block storage, often for structured data/databases. NAS is file storage, often for unstructured files.";
-  if (text.includes("san")) return "SAN = network block storage. The host sees remote storage as disk-like blocks, not shared folders.";
-  if (text.includes("nfs")) return "NFS = Unix/Linux file sharing. NFSv3 is stateless; NFSv4 is stateful and stronger on security/locking.";
-  if (text.includes("cifs") || text.includes("smb")) return "CIFS/SMB = Windows-style file sharing. It is file-level NAS, not block storage.";
-  if (text.includes("hdfs")) return "HDFS: NameNode manages metadata; DataNode stores actual data blocks.";
-  if (text.includes("s3") || text.includes("swift")) return "S3/Swift = object storage protocols. Do not confuse object access protocols with block SAN protocols.";
-  if (text.includes("nvme")) return "NVMe advantages in the mock: low latency, high bandwidth, high IOPS, and low power consumption.";
-  if (text.includes("slc") || text.includes("mlc") || text.includes("tlc") || text.includes("qlc")) return "Flash cell order: SLC=1 bit, MLC=2, TLC=3, QLC=4. More bits usually means cheaper but lower endurance.";
-  if (text.includes("scm")) return "SCM = persistent high-speed storage-class media. It is not simply server memory.";
-  if (text.includes("bbu") && text.includes("coffer")) return "BBU supplies temporary power. Coffer disk stores critical dirty cache/config/log data during power failure.";
-  if (text.includes("controller enclosure") && text.includes("disk enclosure")) return "Controller enclosure processes I/O and holds controller modules. Disk enclosure mainly holds drives and expansion modules.";
-  if (text.includes("front-end") && text.includes("back-end")) return "Front-end faces hosts/application servers. Back-end faces disk enclosures or internal storage paths.";
-  if (text.includes("local write") || text.includes("non-local write") || text.includes("owning engine")) return "Owner engine rule: local I/O reaches the owning engine first; non-local I/O is forwarded to the owner.";
-  if (text.includes("cabling") || text.includes("mini sas")) return "Cabling trap: FC optical fiber can connect HBA to FC switch/storage. Mini SAS HD has electrical and optical forms; do not invent PCIe-to-switch use.";
-  if (text.includes("backup") || text.includes("lan free") || text.includes("server free")) return "LAN Free and Server Free backup modes are designed to reduce host/LAN impact compared with traditional backup.";
-  if (text.includes("rpo")) return "RPO measures acceptable data loss point. RTO measures time to restore service.";
+  if (text.includes("smartthin")) return dopamineHook("SmartThin is thin provisioning: it shows big logical capacity but only spends physical space when data is written.", "Like planning a huge ATM10 base blueprint, but only placing blocks when that room is actually built. Big plan, paid as you go.");
+  if (text.includes("smarttier")) return dopamineHook("SmartTier moves hot data to faster storage and cold data to cheaper/slower storage.", "Like keeping frequently used crafting items near your main AE2 terminal, while bulk cobble/dirt stays in slower deep storage.");
+  if (text.includes("smartmigration")) return dopamineHook("SmartMigration copies a full LUN to a target LUN so services can move over.", "Like moving your whole storage room to a new base, then switching machines to use the new room after the move is ready.");
+  if (text.includes("smartmatrix")) return dopamineHook("SmartMatrix is controller/module sharing for reliability in OceanStor all-flash systems.", "Like having multiple base brains connected so one brain going down does not stop the whole storage network.");
+  if (text.includes("smartindexing")) return dopamineHook("Do not guess from the Smart-name. Match the exact Huawei feature to the job in the question.", "Treat Huawei feature names like mod item names: similar names can do totally different things.");
+  if (text.includes("hypercdp")) return dopamineHook("HyperCDP is very short interval point-in-time protection; the mock likes the 3-second minimum and consistency groups.", "Like ultra-fast save points for your storage before risky automation changes. Tiny restore checkpoints, not a full backup ritual.");
+  if (text.includes("hyperclone")) return dopamineHook("HyperClone is a clone copy feature. Watch split, reverse synchronization, and multiple target LUN wording.", "Like copying a whole machine setup, then deciding whether the copy stays linked, splits off, or sends changes back.");
+  if (text.includes("hypermetro")) return dopamineHook("HyperMetro is active-active service continuity. Static priority decides who wins in specific failure scenarios.", "Like two bases serving the same storage, but one base is marked captain when communication gets weird.");
+  if (text.includes("snapshot") || text.includes("cow")) return dopamineHook("Snapshot/COW preserves old blocks from the snapshot time; it is not saving every future change as the new truth.", "Like taking a screenshot before changing your base. If you break the room later, the screenshot remembers the old layout.");
+  if (text.includes("rollback")) return dopamineHook("Rollback restores source data from a snapshot/checkpoint. Watch for fake claims about normal writes during rollback.", "Like loading an older save state. The goal is to go back, not keep crafting normally in the middle of the restore.");
+  if (text.includes("eservice")) return dopamineHook("eService is the remote support/alarm reporting tool. DeviceManager is local GUI management; CLI is command-line management.", "Like an auto-alert system that sends a crash report to support, not the screen you personally click around in.");
+  if (text.includes("dme") || text.includes("redfish")) return dopamineHook("For DME integration in the mock, RESTful, SSH, and SNMP fit; Redfish was the odd one out.", "Think allowed connector types. Three are normal admin/API paths; the weird hardware-management one is the trap.");
+  if (text.includes("rbac")) return dopamineHook("RBAC means role-based access control: permissions come from assigned roles.", "Like a Minecraft server rank: admin, builder, visitor. Your role decides what commands you can use.");
+  if (text.includes("itil") || text.includes("iso2000") || text.includes("snia") || text.includes("ieee")) return dopamineHook("O&M standard systems: ITIL and ISO 20000/ISO2000. IEEE and SNIA are not the O&M standard systems for that question.", "Like asking which rules are for running the server, not which groups define tech standards.");
+  if (text.includes("cli") && text.includes("change user")) return dopamineHook("CLI command syntax is operation, object, then key=value parameters.", "Like a command block: action first, target second, settings after. change user user_name=x level=admin means change that user's level.");
+  if (text.includes("raid 10")) return dopamineHook("RAID 10 mirrors first, then stripes. It can lose data if both disks in the same mirror pair fail.", "Two paired chests hold the same stuff, then the base spreads work across pairs. Losing both chests in one pair deletes that lane.");
+  if (text.includes("raid 2.0")) return dopamineHook("RAID 2.0+ uses chunk/CKG virtualization, distributed spare capacity, and many-to-many rebuild.", "Instead of one spare drawer waiting, the whole storage network contributes small spare spaces and rebuild work in parallel.");
+  if (text.includes("raid 0")) return dopamineHook("RAID 0 is striping only: fast, no parity, no mirroring, no redundancy.", "Fast item lanes with no backup chest. If one lane is gone, part of the recipe is gone.");
+  if (text.includes("raid 5")) return dopamineHook("RAID 5 uses distributed parity and tolerates one disk failure.", "One failure is recoverable because the recovery math is spread around the setup.");
+  if (text.includes("raid 6")) return dopamineHook("RAID 6 uses double distributed parity and tolerates two disk failures.", "Two independent recovery patterns are stored across the setup, so two broken parts can still be rebuilt.");
+  if (text.includes("stripe") || text.includes("striping")) return dopamineHook("Strip is a piece on one disk. Stripe is the same-position set of strips across disks.", "Strip = one item stack in one drawer. Stripe = the row of matching stacks across all drawers.");
+  if (text.includes("extent")) return dopamineHook("Extent is the unit used for migration, hot-data statistics, space request, and space release.", "Like a movable bundle in the storage network: small enough for the system to track and move intelligently.");
+  if (text.includes("logical port")) return dopamineHook("A logical port is a virtual service port with an IP, based on Ethernet/bond/VLAN ports.", "Like one clean access address for your storage terminal, even if the real cable path underneath changes.");
+  if (text.includes("toe nic") || text.includes("iscsi hba")) return dopamineHook("TOE NIC or iSCSI HBA offloads iSCSI/TCP work from the host CPU.", "If your main base brain is lagging from logistics math, add a helper module that handles that specific work.");
+  if (text.includes("pcie scale-out") || text.includes("ip scale-out")) return dopamineHook("Do not mix PCIe scale-out with IP/RDMA/Ethernet concepts. Match the interconnect family.", "Like confusing a direct internal machine bus with your normal base network cables.");
+  if (text.includes("scale-out")) return dopamineHook("Scale-out expands horizontally by adding nodes/controllers and pooling resources.", "Instead of making one giant storage room, add more connected rooms that work as one system.");
+  if (text.includes("das")) return dopamineHook("DAS is direct-attached block storage: simple, but weak at sharing, scaling, and central management.", "One machine has its own private chest. Easy, but terrible when the whole base needs shared access.");
+  if (text.includes("nas") && text.includes("san")) return dopamineHook("NAS is file storage; SAN is block storage. NAS shares files, SAN presents disk-like blocks.", "NAS feels like a shared folder path. SAN feels like giving a machine its own remote disk.");
+  if (text.includes("san")) return dopamineHook("SAN is network block storage. Hosts see remote storage as disk-like blocks, not shared folders.", "Like a machine thinking it has a disk attached, even though the real storage is across the network.");
+  if (text.includes("nfs")) return dopamineHook("NFS is Unix/Linux file sharing. NFSv3 is stateless; NFSv4 is stateful with better locking/security.", "Stateless is like someone answering each question without remembering the previous one. Stateful remembers the session.");
+  if (text.includes("cifs") || text.includes("smb")) return dopamineHook("CIFS/SMB is Windows-style file sharing. It is NAS/file-level, not block-level SAN.", "Like opening a shared Windows folder, not giving the PC a raw disk.");
+  if (text.includes("hdfs")) return dopamineHook("HDFS uses NameNode for metadata and DataNodes for actual data blocks.", "NameNode is the map room. DataNodes are the warehouses that actually hold the items.");
+  if (text.includes("s3") || text.includes("swift")) return dopamineHook("S3/Swift are object storage protocols. They store objects in buckets/containers, not raw disk blocks.", "Like labeled bundles in huge storage rooms: ask for the object by name/key instead of editing disk sectors.");
+  if (text.includes("nvme")) return dopamineHook("NVMe is built for PCIe SSDs: low latency, high bandwidth, high IOPS, and efficient parallel queues.", "Fast storage controller language for high-speed buffers, not old slow chest paths.");
+  if (text.includes("slc") || text.includes("mlc") || text.includes("tlc") || text.includes("qlc")) return dopamineHook("Flash order: SLC=1 bit, MLC=2, TLC=3, QLC=4. More bits means more capacity but usually lower endurance/performance.", "Like packing more item types into one slot: efficient, but messier and harder to manage fast.");
+  if (text.includes("scm")) return dopamineHook("SCM is persistent high-speed storage-class media. It is not just normal server RAM.", "A super-fast buffer that survives power loss: closer to a permanent speed cache than normal temporary memory.");
+  if (text.includes("bbu") && text.includes("coffer")) return dopamineHook("BBU gives temporary power; coffer disk stores critical dirty cache/config/log data during power failure.", "Battery buys time. Emergency safe stores the important unsaved stuff.");
+  if (text.includes("controller enclosure") && text.includes("disk enclosure")) return dopamineHook("Controller enclosure processes I/O and holds controllers. Disk enclosure mainly holds drives and expansion modules.", "Controller box is the brain room. Disk enclosure is the drive shelf.");
+  if (text.includes("front-end") && text.includes("back-end")) return dopamineHook("Front-end faces hosts/application servers. Back-end faces disk enclosures/internal storage paths.", "Front door is for users/machines entering. Back door is for the storage system talking to its own shelves.");
+  if (text.includes("local write") || text.includes("non-local write") || text.includes("owning engine")) return dopamineHook("Local write reaches the LUN-owning engine first; non-local write is forwarded to the owner.", "Send the request to the owner brain and it handles it. Send it to the wrong brain and it passes it along.");
+  if (text.includes("cabling") || text.includes("mini sas")) return dopamineHook("FC optical fiber can connect HBA to FC switch/storage. Mini SAS HD has electrical and optical forms; avoid invented cable uses.", "Cable questions are connector-matching puzzles. Do not craft a cable recipe the chapter never gave you.");
+  if (text.includes("backup") || text.includes("lan free") || text.includes("server free")) return dopamineHook("LAN Free and Server Free backup reduce host/LAN impact compared with traditional backup.", "Instead of making your main base network carry every backup item, give backup traffic a cleaner side route.");
+  if (text.includes("rpo")) return dopamineHook("RPO is acceptable data loss point; RTO is time to restore service.", "RPO asks 'how far back can the save be?' RTO asks 'how long until the server is playable again?'");
 
-  return "Exam rule: identify the category first, then test each option independently. Most traps are false absolutes, swapped terms, or wrong Huawei feature names.";
+  const glossaryHook = glossaryMemoryHook(text);
+  if (glossaryHook) return glossaryHook;
+
+  return dopamineHook("Identify the category first, then test each option independently. Most traps are false absolutes, swapped terms, or wrong Huawei feature names.", "Slow the question down like checking a recipe: item type first, then exact ingredient names, then the trap word.");
+}
+
+function dopamineHook(examIdea, brainHook) {
+  return `Exam idea: ${examIdea} Brain hook: ${brainHook}`;
+}
+
+function glossaryMemoryHook(text) {
+  const matches = [
+    ["raid 10", "raid10"], ["raid 50", "raid50"], ["raid 6", "raid6"], ["raid 5", "raid5"], ["raid 1", "raid1"], ["raid 0", "raid0"],
+    ["raid-tp", "raidTp"], ["dynamic raid", "dynamicRaid"], ["chunk group", "ckg"], ["ckg", "ckg"], ["chunk", "chunk"], ["storage pool", "storagePool"],
+    ["disk domain", "diskDomain"], ["lun", "lun"], ["parity", "parity"], ["mirror", "mirroring"], ["mirroring", "mirroring"], ["striping", "striping"],
+    ["scsi", "scsi"], ["sas", "sas"], ["iscsi", "iscsi"], ["fibre channel", "fc"], [" fc", "fc"], ["pcie", "pcie"], ["rdma", "rdma"], ["roce", "roce"],
+    ["nas", "nas"], ["nfs", "nfs"], ["cifs", "cifs"], ["smb", "cifs"], ["san", "san"], ["s3", "s3"], ["hdfs", "hdfs"],
+    ["controller enclosure", "controllerEnclosure"], ["controller", "controller"], ["front-end", "frontendPort"], ["back-end", "backendPort"],
+    ["bbu", "bbu"], ["coffer", "cofferDisk"], ["disk enclosure", "diskEnclosure"], ["hdd", "hdd"], ["ssd", "ssd"], ["scm", "scm"]
+  ];
+  const match = matches.find(([needle]) => text.includes(needle));
+  if (!match) return "";
+  const item = glossary[match[1]];
+  if (!item) return "";
+  return dopamineHook(item.technical, item.minecraft);
 }
 
 function setMode(mode) {
