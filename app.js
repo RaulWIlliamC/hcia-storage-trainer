@@ -2539,6 +2539,7 @@ function finishQuiz() {
     date: new Date().toISOString()
   });
   renderAttempts();
+  renderModeButtons();
 
   questionTagEl.textContent = "Quiz Complete";
   questionCountEl.textContent = `${total} / ${total}`;
@@ -2609,6 +2610,7 @@ function saveAttempt(attempt) {
 function clearAttempts() {
   localStorage.removeItem(attemptsKey);
   renderAttempts();
+  renderModeButtons();
 }
 
 function questionKey(question) {
@@ -2819,13 +2821,20 @@ function setMode(mode) {
 
 function renderModeButtons() {
   const modes = chapterModes[activeChapter] || chapterModes[1];
+  const attempts = loadAttempts();
   modeRow.innerHTML = "";
   modes.forEach(([value, label]) => {
+    const best = bestAttemptForMode(attempts, activeChapter, value);
+    const progressClass = modeProgressClass(best);
     const button = document.createElement("button");
-    button.className = `mode-btn${value === activeMode ? " active" : ""}`;
+    button.className = `mode-btn${progressClass ? ` ${progressClass}` : ""}${value === activeMode ? " active" : ""}`;
     button.type = "button";
     button.dataset.mode = value;
     button.textContent = label;
+    if (best) {
+      button.title = `Best score: ${best.percent}% (${best.correct}/${best.total})`;
+      button.setAttribute("aria-label", `${label}. Best score ${best.percent} percent.`);
+    }
     button.addEventListener("click", () => setMode(value));
     modeRow.appendChild(button);
   });
@@ -2837,6 +2846,19 @@ function renderModeButtons() {
   shuffle.textContent = "↻";
   shuffle.addEventListener("click", resetOrder);
   modeRow.appendChild(shuffle);
+}
+
+function bestAttemptForMode(attempts, chapter, mode) {
+  return attempts
+    .filter((attempt) => String(attempt.chapter) === String(chapter) && attempt.mode === mode)
+    .sort((a, b) => b.percent - a.percent || new Date(b.date) - new Date(a.date))[0];
+}
+
+function modeProgressClass(attempt) {
+  if (!attempt) return "";
+  if (attempt.percent >= 85) return "progress-good";
+  if (attempt.percent >= 70) return "progress-warn";
+  return "progress-bad";
 }
 
 function setChapter(chapter) {
