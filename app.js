@@ -1961,8 +1961,17 @@ const mockMistakeQuestions = [
   {"id":"Q056","mode":"mistakes","tag":"Q056 · OceanStor Pacific SmartIndexing","q":"In addition to running lossless semantic and performance features, OceanStor Pacific series provides the SmartIndexing feature to implement multi-protocol interworking of file, object, and HDFS services. This allows one copy of data to be accessed through multiple semantics without format conversion.","a":["True","False"],"correct":1,"explain":"The described one-copy multi-protocol interworking without format conversion is not SmartIndexing as stated."},
   {"id":"Q057","mode":"mistakes","tag":"Q057 · SmartMatrix","q":"Huawei OceanStor all-flash storage systems use the SmartMatrix architecture that allows all controllers to share all front- and back-end interface modules. This ensures failure of any controller will not impact service running.","a":["True","False"],"correct":0,"explain":"SmartMatrix enables controllers to share front-end and back-end modules, improving reliability so a controller failure does not interrupt services."},
   {"id":"Q058","mode":"mistakes","tag":"Q058 · Flash media / SCM","q":"In terms of flash medium chip technology, QLC is cheaper than TLC and supports frequent rewriting, while storage class memory (SCM) provides high-speed read/write and is best suited to server memory.","a":["True","False"],"correct":1,"explain":"QLC is cheaper but has lower endurance than TLC, so it is not suited to frequent rewriting. SCM is high-speed persistent storage-class media, not simply best suited as server memory in this wording."},
-  {"id":"Q060","mode":"mistakes","tag":"Q060 · HyperClone / LUN types","q":"In Huawei OceanStor storage systems, when you create a clone, the original LUN can be a thick LUN or a thin LUN, and the secondary LUN can only be a thin LUN.","a":["True","False"],"correct":0,"explain":"For OceanStor clone creation in this question, the original LUN can be thick or thin, but the secondary LUN is limited to thin LUN."}
+  {"id":"Q060","mode":"mistakes","tag":"Q060 · HyperClone / LUN types","q":"In Huawei OceanStor storage systems, when you create a clone, the original LUN can be a thick LUN or a thin LUN, and the secondary LUN can only be a thin LUN.","a":["True","False"],"correct":0,"explain":"For OceanStor clone creation in this question, the original LUN can be thick or thin, but the secondary LUN is limited to thin LUN."},
+  {"id":"Q004R","mode":"mistakes","tag":"Q004 · Recent miss · RAID striping","q":"Which of the following statements is incorrect about RAID striping?","a":["The striping technology segments logically-sequential data into multiple data blocks and stores them on different disks.","A stripe consists of one or more consecutive sectors in a disk, and multiple stripes form a strip.","Striping evenly distributes I/O loads across multiple physical disks.","Striping enables a RAID group to provide a faster speed than a single disk."],"correct":1,"explain":"This reverses the terms. A strip is one or more consecutive sectors on one disk. A stripe is the cross-disk set of strips at the same position."},
+  {"id":"Q009R","mode":"mistakes","tag":"Q009 · Recent miss · Information vs data","q":"Which of the following statements about information is incorrect?","a":["Information is a data representation of all things.","Information is different from data.","Information is processed data.","Information is used to eliminate random uncertainties."],"correct":0,"explain":"Information is processed, meaningful data that reduces uncertainty. A raw representation of things is closer to data, not information."},
+  {"id":"Q010R","mode":"mistakes","tag":"Q010 · Recent miss · Thin LUNs","q":"Which of the following statements about thin LUNs is incorrect?","a":["After SmartThin is enabled, the capacity of the to-be-created thin LUNs can be larger than the max. available physical capacity of a storage pool.","Thin LUNs cannot be directly converted to thick LUNs.","SmartThin must be enabled for all LUNs in a storage pool.","Thin LUNs occupy a small amount of storage capacity when being created."],"correct":2,"explain":"SmartThin does not have to be enabled for all LUNs in a storage pool. Thin LUNs allocate physical space on demand and initially occupy little capacity."},
+  {"id":"Q025R","mode":"mistakes","tag":"Q025 · Recent miss · OceanStor all-flash","q":"Which of the following statements is incorrect about Huawei OceanStor all-flash storage systems?","a":["When creating a LUN, you must plan the owning controller for the LUN to implement load balancing across controllers in the system.","OceanStor all-flash storage systems support front-end interconnect I/O modules to directly send host I/Os to the most appropriate controller.","The caches on all controller nodes form a global cache.","Data in each LUN is evenly distributed to the caches on all nodes."],"correct":0,"explain":"OceanStor all-flash systems use a distributed/global architecture with intelligent I/O steering and global cache behavior, so manually planning the owning controller for load balancing is the incorrect statement."},
+  {"id":"Q027R","mode":"mistakes","tag":"Q027 · Recent miss · Data processing stage","q":"A data processing cycle includes three basic steps: input, processing, and output. Which of the following are operations performed in the processing stage?","a":["Calculate salaries based on the attendance records of employees.","Calculate monthly sales summary based on sales records.","Import calculation data to the database.","Print pay slips."],"correct":[0,1],"explain":"Processing means transforming or calculating data. Importing data is input/storage behavior, and printing pay slips is output."},
+  {"id":"Q049R","mode":"mistakes","tag":"Q049 · Recent miss · Scale-out object storage","q":"Scale-out object storage has a unified namespace and supports online scaling.","a":["True","False"],"correct":0,"explain":"Scale-out object storage provides a unified namespace and supports online scaling, so the statement is true."},
+  {"id":"Q051R","mode":"mistakes","tag":"Q051 · Recent miss · SmartThin","q":"SmartThin pre-allocates all space and presents users with a capacity larger than the logical storage space.","a":["True","False"],"correct":1,"explain":"SmartThin does not pre-allocate all space. It presents logical capacity and allocates physical capacity on demand."}
 ];
+
+const recentMockMistakeIds = ["Q004R", "Q009R", "Q010R", "Q025R", "Q027R", "Q028", "Q031", "Q033", "Q034", "Q038", "Q049R", "Q051R", "Q056"];
 
 const mockMistakeSections = {
   foundation: ["Q003", "Q006", "Q023", "Q026", "Q030", "Q034", "Q038", "Q043", "Q053", "Q054"],
@@ -2007,6 +2016,7 @@ const chapterModes = {
   ],
   mistakes: [
     ["all", "All Mock Mistakes"],
+    ["recent764", "Recent 764 Misses"],
     ["foundation", "Foundations"],
     ["hardware", "Hardware / Media"],
     ["smart", "Smart Features"],
@@ -2243,6 +2253,9 @@ function filteredQuestions() {
   };
   const source = sources[activeChapter] || questions;
   if (activeChapter === "mistakes" && activeMode !== "all") {
+    if (activeMode === "recent764") {
+      return source.filter((question) => recentMockMistakeIds.includes(question.id));
+    }
     return source.filter((question) => question.section === activeMode);
   }
   return source.filter((question) => activeMode === "all" || question.mode === activeMode);
@@ -2459,6 +2472,9 @@ function hintForQuestion(question) {
     : "Single answer: look for the one statement that matches the wording. ";
 
   if (text.includes("incorrect") || text.includes("not a feature") || text.includes("cannot") || text.includes("not supporting")) return prefix + "This is a negative-wording trap. Find the false statement, not the familiar true one.";
+  if (text.includes("information") && text.includes("data")) return prefix + "Separate raw facts from processed meaning. The false option usually defines one as the other.";
+  if (text.includes("processing stage") || text.includes("input, processing, and output")) return prefix + "Processing means calculating or transforming data. Importing is input, and printing/displaying is output.";
+  if (text.includes("owning controller") || text.includes("global cache")) return prefix + "All-flash/global architecture questions often punish old manual-controller-planning assumptions.";
   if (text.includes("smartthin")) return prefix + "Think about the feature category first: capacity virtualization and allocation timing. Avoid choosing a feature just because the name sounds familiar.";
   if (text.includes("smarttier")) return prefix + "Sort the data by temperature first: hot data, cold data, and which tier should handle each.";
   if (text.includes("hypercdp")) return prefix + "This is a point-in-time protection feature. Watch for exact timing and consistency-group wording.";
@@ -2740,6 +2756,10 @@ function memoryHook(question) {
   const text = `${question.tag} ${question.q} ${question.explain}`.toLowerCase();
 
   if (text.includes("smartthin")) return dopamineHook("SmartThin is thin provisioning: it shows big logical capacity but only spends physical space when data is written.", "Like planning a huge ATM10 base blueprint, but only placing blocks when that room is actually built. Big plan, paid as you go.");
+  if (text.includes("thin lun")) return dopamineHook("Thin LUNs allocate physical space on demand and can present more logical capacity than currently available physical capacity.", "Like a huge base blueprint with rooms reserved on paper, but blocks are only consumed when you actually build each room.");
+  if (text.includes("information") && text.includes("data")) return dopamineHook("Data is raw representation; information is processed data that carries meaning and reduces uncertainty.", "Raw drops are data. A sorted AE2 terminal showing what you can actually craft is information.");
+  if (text.includes("processing stage") || text.includes("input, processing, and output")) return dopamineHook("Processing is the calculation/transformation step between input and output.", "Putting ore into the system is input. Smelting/crafting it is processing. Pulling the finished ingot/report out is output.");
+  if (text.includes("owning controller") || text.includes("global cache")) return dopamineHook("OceanStor all-flash uses global/distributed behavior and intelligent I/O steering; do not assume manual owning-controller planning for load balancing.", "Like an AE2 network with smart routing: you do not manually assign every recipe to one brain just to balance the system.");
   if (text.includes("smarttier")) return dopamineHook("SmartTier moves hot data to faster storage and cold data to cheaper/slower storage.", "Like keeping frequently used crafting items near your main AE2 terminal, while bulk cobble/dirt stays in slower deep storage.");
   if (text.includes("smartmigration")) return dopamineHook("SmartMigration copies a full LUN to a target LUN so services can move over.", "Like moving your whole storage room to a new base, then switching machines to use the new room after the move is ready.");
   if (text.includes("smartmatrix")) return dopamineHook("SmartMatrix is controller/module sharing for reliability in OceanStor all-flash systems.", "Like having multiple base brains connected so one brain going down does not stop the whole storage network.");
@@ -2764,6 +2784,7 @@ function memoryHook(question) {
   if (text.includes("logical port")) return dopamineHook("A logical port is a virtual service port with an IP, based on Ethernet/bond/VLAN ports.", "Like one clean access address for your storage terminal, even if the real cable path underneath changes.");
   if (text.includes("toe nic") || text.includes("iscsi hba")) return dopamineHook("TOE NIC or iSCSI HBA offloads iSCSI/TCP work from the host CPU.", "If your main base brain is lagging from logistics math, add a helper module that handles that specific work.");
   if (text.includes("pcie scale-out") || text.includes("ip scale-out")) return dopamineHook("Do not mix PCIe scale-out with IP/RDMA/Ethernet concepts. Match the interconnect family.", "Like confusing a direct internal machine bus with your normal base network cables.");
+  if (text.includes("unified namespace") || text.includes("online scaling")) return dopamineHook("Scale-out object storage can provide one unified namespace and scale online.", "Like expanding your storage network while keeping one terminal name/path for everything.");
   if (text.includes("scale-out")) return dopamineHook("Scale-out expands horizontally by adding nodes/controllers and pooling resources.", "Instead of making one giant storage room, add more connected rooms that work as one system.");
   if (text.includes("das")) return dopamineHook("DAS is direct-attached block storage: simple, but weak at sharing, scaling, and central management.", "One machine has its own private chest. Easy, but terrible when the whole base needs shared access.");
   if (text.includes("nas") && text.includes("san")) return dopamineHook("NAS is file storage; SAN is block storage. NAS shares files, SAN presents disk-like blocks.", "NAS feels like a shared folder path. SAN feels like giving a machine its own remote disk.");
@@ -2914,14 +2935,14 @@ function setChapter(chapter) {
     `;
   } else if (chapter === "mistakes") {
     heroTitle.textContent = "Mock Mistakes Trainer";
-    heroText.textContent = "Drill the exact wrong answers from your Huawei mock attempt, now split into small sections. Multi-answer questions require selecting every correct option before pressing Submit.";
-    chapterCard.innerHTML = "<span>Source</span><strong>40 wrong</strong><small>from Question Log.md</small>";
+    heroText.textContent = "Drill the exact wrong answers from your Huawei mock attempts, now split into small sections. Use Recent 764 Misses first because those are the latest confirmed gaps.";
+    chapterCard.innerHTML = "<span>Source</span><strong>47 drills</strong><small>40 original wrong + 7 recent repeats from Question Log.md</small>";
     learningPanelTitle.textContent = "What This Fixes";
     topicList.innerHTML = `
+      <article><h3>Recent 764 Misses</h3><p>Start here after a new mock. It targets the latest repeated misses: strip/stripe wording, information vs data, SmartThin, all-flash ownership, data processing, object scale-out, and repeated multi-select misses.</p></article>
       <article><h3>Multi-select Precision</h3><p>If the question says statements, forms, advantages, phases, or operations, assume more than one answer may be correct. Missing one correct option still fails.</p></article>
       <article><h3>Incorrect Statement Traps</h3><p>Slow down on wording like <strong>incorrect</strong>, <strong>not a feature</strong>, and <strong>cannot</strong>. These questions often hide one false statement among true ones.</p></article>
       <article><h3>Huawei Feature Names</h3><p>Watch names like SmartThin, SmartTier, HyperCDP, HyperClone, HyperMetro, SmartMatrix, eService, DME, and RBAC.</p></article>
-      <article><h3>Use The Sections</h3><p>Use Hardware, Smart Features, Protection, O&M, and Products when one big mock-fix session feels too heavy.</p></article>
     `;
   } else if (chapter === "notebook") {
     heroTitle.textContent = "Mistake Notebook";
